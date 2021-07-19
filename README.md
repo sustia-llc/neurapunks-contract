@@ -53,7 +53,7 @@ In a new terminal, go to the repository's root folder and run this to
 deploy your contract:
 
 ```sh
-hh run --network localhost scripts/deploy-localhost.ts
+hh run --network localhost scripts/deploy.ts
 ```
 
 ## Set up Metadata and Image for Contract
@@ -94,7 +94,7 @@ Supply the private key of the contract owner in .env:
 
 Deploy contract to Rinkeby:
 ```sh
-hh run --network rinkeby scripts/deploy-rinkeby.ts
+hh run --network rinkeby scripts/deploy.ts
 ```
 Note the deployed contract's address and update value in .env:
 * RINKEBY_CONTRACT_ADDRESS=
@@ -126,7 +126,7 @@ Token will be transferred to the zero address and marked as nonexistent token
 
 ## Deploy to mainnet
 ```sh
-hh run --network mainnet scripts/deploy-mainnet.ts
+hh run --network mainnet scripts/deploy.ts
 ```
 
 note the depoloyed contract's address and update value in .env:
