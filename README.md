@@ -71,7 +71,7 @@ npx arweave deploy assets/nrpk-contract.json
 Update "contractURI" in contracts/NRPK.sol
 
 ## Set up Metadata and Images for First Minted Work
-Upload image as a 256x256 png:
+Upload image as a 512x512 png:
 ```sh
 npx arweave deploy assets/nrpk-0.png
 ```
@@ -109,7 +109,7 @@ Visit the following URL, by providing the new contract address:
 https://rinkeby.etherscan.io/address/_contract-address_
 
 ### Mint to Rinkeby
-Verify mintTokenURI
+Verify mintTokenURI in `mint-rinkeby.ts` then run:
 ```sh
 hh run --network rinkeby scripts/mint-rinkeby.ts
 ```
@@ -118,7 +118,7 @@ hh run --network rinkeby scripts/mint-rinkeby.ts
 Go to https://testnets.opensea.io/ connect wallet using the Rinkeby network. Choose "My Collections" and "Import an existing smart contract". Enter the Rinkeby Contract Address.
 
 ### Burn Token on Rinkeby
-Verify TokenId
+Verify tokenId in `burn-rinkeby.ts` then run:
 ```sh
 hh run --network rinkeby scripts/burn-rinkeby.ts
 ```
@@ -142,6 +142,7 @@ Visit the following URL, by providing the new contract address:
 https://etherscan.io/address/_contract-address__#code
 
 ### Mint to mainnet
+Verify mintTokenURI in `mint-mainnet.ts` then run:
 ```sh
 hh run --network mainnet scripts/mint-mainnet.ts
 ```
