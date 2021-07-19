@@ -83,7 +83,7 @@ Deploy neurapunk-0.json:
 npx arweave deploy assets/neurapunk-0.json
 ```
 
-Update mintTokenURI in scripts/mint-rinkeby.ts and scripts/mint-mainnet.ts with Arweave path to token metadata file
+Update mintTokenURI in scripts/mint.ts with Arweave path to token metadata file
 
 ## Deploy to Rinkeby
 Get ether on Rinkeby:
@@ -109,9 +109,9 @@ Visit the following URL, by providing the new contract address:
 https://rinkeby.etherscan.io/address/_contract-address_
 
 ### Mint to Rinkeby
-Verify mintTokenURI in `mint-rinkeby.ts` then run:
+Verify mintTokenURI in `mint.ts` then run:
 ```sh
-hh run --network rinkeby scripts/mint-rinkeby.ts
+hh run --network rinkeby scripts/mint.ts
 ```
 
 ### Check contract on OpenSea
@@ -142,9 +142,9 @@ Visit the following URL, by providing the new contract address:
 https://etherscan.io/address/_contract-address__#code
 
 ### Mint to mainnet
-Verify mintTokenURI in `mint-mainnet.ts` then run:
+Verify mintTokenURI in `mint.ts` then run:
 ```sh
-hh run --network mainnet scripts/mint-mainnet.ts
+hh run --network mainnet scripts/mint.ts
 ```
 
 ### Check contract on OpenSea
