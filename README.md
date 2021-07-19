@@ -118,9 +118,9 @@ hh run --network rinkeby scripts/mint-rinkeby.ts
 Go to https://testnets.opensea.io/ connect wallet using the Rinkeby network. Choose "My Collections" and "Import an existing smart contract". Enter the Rinkeby Contract Address.
 
 ### Burn Token on Rinkeby
-Verify tokenId in `burn-rinkeby.ts` then run:
+Verify tokenId in `burn.ts` then run:
 ```sh
-hh run --network rinkeby scripts/burn-rinkeby.ts
+hh run --network rinkeby scripts/burn.ts
 ```
 Token will be transferred to the zero address and marked as nonexistent token
 

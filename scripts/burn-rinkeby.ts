@@ -26,7 +26,7 @@ async function main() {
   console.log(`mintToAddress: ${mintToAddress}`);  
 
   const contract: NRPK = new ethers.Contract(contractAddress, abi, deployer) as NRPK;
-  const tokenId = ethers.BigNumber.from(1);
+  const tokenId = ethers.BigNumber.from(0);
   const receipt: ContractTransaction = await contract.connect(deployer)
     .burn(tokenId, { gasLimit: 300000 });
 
