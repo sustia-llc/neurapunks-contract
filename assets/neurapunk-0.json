@@ -1,0 +1,36 @@
+{
+    "description": "A mysterious hacker with luminous skin and hair", 
+    "attributes": [
+        {
+            "trait_type": "CP Ancestor", 
+            "value": "860"
+        },
+        {
+            "trait_type": "Checkpoint", 
+            "value": "447000"
+        },
+        {
+            "trait_type": "Calling", 
+            "value": "Hacker"
+        },
+        {
+            "trait_type": "Hybrid", 
+            "value": "Animal"
+        },
+        {
+            "trait_type": "Mod", 
+            "value": "Nano"
+        },
+        {
+            "trait_type": "Attribute", 
+            "value": "Metamodernist"
+        },
+        {
+            "trait_type": "Attribute", 
+            "value": "Visionary"
+        }
+    ],
+    "external_url": "https://neurapunks.io/neurapunks/0", 
+    "image": "ar://HN5rspPSOAEeXVa7rbPEiSzHGzyU8QOeu5NViBp6zkY", 
+    "name": "NeuraPunk #0"
+}
