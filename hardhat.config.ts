@@ -19,7 +19,7 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
     }
 });
 
-// hh burntoken --network rinkeby|mainnet --token-id 22
+// hh burntoken --network rinkeby|mainnet|localhost --token-id 22
 task("burntoken", "Burns a token by token id")
     .addParam("tokenId", "The token id")
     .setAction(async (args, hre) => {
@@ -29,6 +29,15 @@ task("burntoken", "Burns a token by token id")
 
         let deployer: SignerWithAddress;
 
+        var tokenId;
+        if (!isNaN(parseInt(args['tokenId'], 10))) {
+            tokenId = parseInt(args['tokenId'], 10);
+        } else {
+            console.log('token-id must be an integer');
+            process.exit(0)
+        }
+        console.log('burning:', tokenId);
+
         [deployer] = await hre.ethers.getSigners();
         const address = await deployer.getAddress();
         console.log(`deployer address: ${address}`);
@@ -41,12 +50,12 @@ task("burntoken", "Burns a token by token id")
           contractAddress = process.env.RINKEBY_CONTRACT_ADDRESS || '';
         } else if (network.name === "homestead") {
           contractAddress = process.env.MAINNET_CONTRACT_ADDRESS || '';
+        } else if (network.name === "unknown") {
+            contractAddress = process.env.LOCALHOST_CONTRACT_ADDRESS || '';
         }
         console.log(`contractAddress: ${contractAddress}`);  
 
         const contract: NRPK = new hre.ethers.Contract(contractAddress, abi, deployer) as NRPK;
-        const tokenId = args['tokenId'];
-        console.log('burning:', tokenId)
         const receipt: ContractTransaction = await contract.connect(deployer)
           .burn(tokenId, { gasLimit: 300000 });
       
@@ -54,7 +63,7 @@ task("burntoken", "Burns a token by token id")
         process.exit(0)
     });
 
-// hh minttoken --network rinkeby|mainnet --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+// hh minttoken --network rinkeby|mainnet|localhost --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 task("minttoken", "Mints a token with token metadata uri")
     .addParam("metadataUri", "The token URI")
     .setAction(async (args, hre) => {
@@ -62,12 +71,20 @@ task("minttoken", "Mints a token with token metadata uri")
             'function safeMint(address to, string metadataURI) public',
           ]
 
+        const mintTokenURI = args['metadataUri'];
+
+        if (!mintTokenURI.startsWith("ar://")) {
+            console.log('token-id must begin with ar://');
+            process.exit(0)
+        }
+        console.log('mintTokenURI:', mintTokenURI)
+
         let deployer: SignerWithAddress;
 
         [deployer] = await hre.ethers.getSigners();
         const address = await deployer.getAddress();
         console.log(`deployer address: ${address}`);
-      
+
         const network = await hre.ethers.provider.getNetwork();
         console.log(`network: ${network.name}`);
       
@@ -76,6 +93,8 @@ task("minttoken", "Mints a token with token metadata uri")
           contractAddress = process.env.RINKEBY_CONTRACT_ADDRESS || '';
         } else if (network.name === "homestead") {
           contractAddress = process.env.MAINNET_CONTRACT_ADDRESS || '';
+        } else if (network.name === "unknown") { //localhost network
+            contractAddress = process.env.LOCALHOST_CONTRACT_ADDRESS || '';
         }
         console.log(`contractAddress: ${contractAddress}`);  
 
@@ -83,11 +102,9 @@ task("minttoken", "Mints a token with token metadata uri")
         console.log(`mintToAddress: ${mintToAddress}`);  
 
         const contract: NRPK = new hre.ethers.Contract(contractAddress, abi, deployer) as NRPK;
-        const mintTokenURI = args['metadataUri'];
-        console.log('mintTokenURI:', mintTokenURI)
 
         const receipt: ContractTransaction = await contract.connect(deployer)
-        .safeMint(mintToAddress, mintTokenURI, { gasLimit: 300000 });
+            .safeMint(mintToAddress, mintTokenURI, { gasLimit: 300000 });
     
         console.log('minted:', receipt);
         process.exit(0)
