@@ -30,8 +30,7 @@ abstract contract ERC721Tradable is
 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
-    // Mapping for whether a token URI is set permanently
-    mapping(uint256 => bool) private _isPermanentURI;
+
     address proxyRegistryAddress;
 
     event PermanentURI(string value, uint256 indexed id);
@@ -43,15 +42,7 @@ abstract contract ERC721Tradable is
     ) ERC721(_name, _symbol) {
         proxyRegistryAddress = _proxyRegistryAddress;
         _initializeEIP712(_name);
-    }
-
-    modifier onlyImpermanentURI(uint256 id) {
-        require(
-            !_isPermanentURI[id],
-            "AssetContract#onlyImpermanentURI: URI_CANNOT_BE_CHANGED"
-        );
-        _;
-    }    
+    }  
 
     /**
      * @dev Safely mints a token to an address with a tokenURI.
@@ -69,9 +60,7 @@ abstract contract ERC721Tradable is
 
     function _setPermanentURI(uint256 id, string memory uri)
         internal
-        onlyImpermanentURI(id)
     {
-        _isPermanentURI[id] = true;
         _setTokenURI(id, uri);
         emit PermanentURI(uri, id);
     }
