@@ -83,8 +83,6 @@ Deploy neurapunk-0.json:
 npx arweave deploy assets/neurapunk-0.json
 ```
 
-Update mintTokenURI in scripts/mint.ts with Arweave path to token metadata file
-
 ## Deploy to Rinkeby
 Get ether on Rinkeby:
 https://faucet.rinkeby.io/
@@ -109,18 +107,16 @@ Visit the following URL, by providing the new contract address:
 https://rinkeby.etherscan.io/address/_contract-address_
 
 ### Mint to Rinkeby
-Verify mintTokenURI in `mint.ts` then run:
 ```sh
-hh run --network rinkeby scripts/mint.ts
+hh minttoken --network rinkeby --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 ```
 
 ### Check contract on OpenSea
 Go to https://testnets.opensea.io/ connect wallet using the Rinkeby network. Choose "My Collections" and "Import an existing smart contract". Enter the Rinkeby Contract Address.
 
 ### Burn Token on Rinkeby
-Verify tokenId in `burn.ts` then run:
 ```sh
-hh run --network rinkeby scripts/burn.ts
+hh burntoken --network rinkeby --token-id 22
 ```
 Token will be transferred to the zero address and marked as nonexistent token
 
@@ -142,10 +138,15 @@ Visit the following URL, by providing the new contract address:
 https://etherscan.io/address/_contract-address__#code
 
 ### Mint to mainnet
-Verify mintTokenURI in `mint.ts` then run:
 ```sh
-hh run --network mainnet scripts/mint.ts
+hh minttoken --network mainnet --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 ```
+
+### Burn Token on mainnet
+```sh
+hh burntoken --network mainnet --token-id 22
+```
+Token will be transferred to the zero address and marked as nonexistent token
 
 ### Check contract on OpenSea
 Go to https://opensea.io/ and connect wallet using the mainnet network. Choose "My Collections" and "Import an existing smart contract". Enter the mainnet Contract Address.
