@@ -5,7 +5,7 @@ import { TASK_DEPLOY } from "../task-names";
 
 //hh deploy --network hardhat|localhost|rinkeby|mainnet
 task(TASK_DEPLOY, "Deploy contract")
-  .setAction(async ({ metadataUri }, hre) => {
+  .setAction(async (args, hre) => {
     let deployer: SignerWithAddress;
 
     var PROXY_REGISTRATION_ADDRESS = '0xa5409ec958c83c3f309868babaca7c86dcb077c1';
