@@ -53,7 +53,7 @@ In a new terminal, go to the repository's root folder and run this to
 deploy your contract:
 
 ```sh
-hh run --network localhost scripts/deploy.ts
+hh deploy --network localhost
 ```
 
 ## Set up Metadata and Image for Contract
@@ -92,7 +92,7 @@ Supply the private key of the contract owner in .env:
 
 Deploy contract to Rinkeby:
 ```sh
-hh run --network rinkeby scripts/deploy.ts
+hh deploy --network rinkeby
 ```
 Note the deployed contract's address and update value in .env:
 * RINKEBY_CONTRACT_ADDRESS=
@@ -108,7 +108,7 @@ https://rinkeby.etherscan.io/address/_contract-address_
 
 ### Mint to Rinkeby
 ```sh
-hh minttoken --network rinkeby --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+hh mint-token --network rinkeby --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 ```
 
 ### Check contract on OpenSea
@@ -116,13 +116,13 @@ Go to https://testnets.opensea.io/ connect wallet using the Rinkeby network. Cho
 
 ### Burn Token on Rinkeby
 ```sh
-hh burntoken --network rinkeby --token-id 22
+hh burn-token --network rinkeby --token-id 22
 ```
 Token will be transferred to the zero address and marked as nonexistent token
 
 ## Deploy to mainnet
 ```sh
-hh run --network mainnet scripts/deploy.ts
+hh deploy --network mainnet
 ```
 
 note the depoloyed contract's address and update value in .env:
@@ -139,12 +139,12 @@ https://etherscan.io/address/_contract-address__#code
 
 ### Mint to mainnet
 ```sh
-hh minttoken --network mainnet --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+hh mint-token --network mainnet --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 ```
 
 ### Burn Token on mainnet
 ```sh
-hh burntoken --network mainnet --token-id 22
+hh burn-token --network mainnet --token-id 22
 ```
 Token will be transferred to the zero address and marked as nonexistent token
 
