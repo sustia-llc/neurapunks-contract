@@ -56,6 +56,12 @@ deploy your contract:
 hh deploy --network localhost
 ```
 
+update LOCALHOST_CONTRACT_ADDRESS .env with address of newly deployed contract. 
+
+```sh
+hh mint-token --network localhost --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+```
+
 ## Set up Metadata and Image for Contract
 ```sh
 npx arweave key-save <json file>
