@@ -33,7 +33,10 @@ abstract contract ERC721Tradable is
 
     address proxyRegistryAddress;
 
-    event PermanentURI(string value, uint256 indexed id);
+    event PermanentURI(string _value, uint256 indexed _id);
+
+    // maps token id to true if URI is permanent
+    mapping(uint256 => bool) private _isPermanentURI;
 
     constructor(
         string memory _name,
@@ -54,15 +57,50 @@ abstract contract ERC721Tradable is
     {
         uint256 newTokenId = _tokenIdCounter.current();
         _safeMint(to, newTokenId);
-        _setPermanentURI(newTokenId, metadataURI);
+        _setTokenURI(newTokenId, metadataURI);
         _tokenIdCounter.increment();
     }
 
-    function _setPermanentURI(uint256 id, string memory uri)
+    function safeBatchMint(address to, string[] memory metadataURIs)
+        public onlyOwner
+    {
+        if (metadataURIs.length > 1) {
+            for (uint256 i = 0; i < metadataURIs.length; i++) {
+                safeMint(to, metadataURIs[i]);
+            }
+        }
+    }
+
+    modifier onlyImpermanentURI(uint256 id) {
+        require(
+            !_isPermanentURI[id],
+            "ERC721Tradable#onlyImpermanentURI: URI_CANNOT_BE_CHANGED"
+        );
+        _;
+    }
+
+    function setTokenURI(uint256 tokenId, string memory _tokenURI)
+        public
+        onlyOwner        
+        onlyImpermanentURI(tokenId)
+    {
+        _setTokenURI(tokenId, _tokenURI);
+    }
+
+    function setPermanentURI(uint256 tokenId, string memory _tokenURI)
+        public
+        onlyOwner
+        onlyImpermanentURI(tokenId)
+    {
+        _setPermanentURI(tokenId, _tokenURI);
+    }
+
+    function _setPermanentURI(uint256 tokenId, string memory _tokenURI)
         internal
     {
-        _setTokenURI(id, uri);
-        emit PermanentURI(uri, id);
+        _isPermanentURI[tokenId] = true;
+        _setTokenURI(tokenId, _tokenURI);
+        emit PermanentURI(_tokenURI, tokenId);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)

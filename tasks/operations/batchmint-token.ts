@@ -2,18 +2,21 @@ import { task, types } from "hardhat/config";
 import { ContractTransaction } from "ethers";
 import { NRPK } from "../../typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { TASK_BURN } from "../task-names";
-// hh burn-token --network rinkeby|mainnet|localhost --token-id 22
-task(TASK_BURN, "Burns a token by token id")
-  .addParam("tokenId", "The token id", null, types.int)
-  .setAction(async ({ tokenId }, hre) => {
+import { TASK_BATCHMINT } from "../task-names";
+// hh mint-token --network rinkeby|mainnet|localhost --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+task(TASK_BATCHMINT, "Batch mints tokens with token metadata uris")
+  .addParam("metadataUris", "The token URI", null, types.string)
+  .setAction(async ({ metadataUris }, hre) => {
     const abi = [
-      'function burn(uint256 tokenId) public',
+      'function safeBatchMint(address to, string[] metadataURIs) public',
     ]
 
-    let deployer: SignerWithAddress;
+    //TODO parse comma delimited to Arr
+    var metadataUriArr: string[] = metadataUris.split(',');
 
-    console.log('burning:', tokenId);
+    console.log('mintTokenURIs:', metadataUriArr);
+
+    let deployer: SignerWithAddress;
 
     [deployer] = await hre.ethers.getSigners();
     const address = await deployer.getAddress();
@@ -32,11 +35,14 @@ task(TASK_BURN, "Burns a token by token id")
     }
     console.log(`contractAddress: ${contractAddress}`);
 
+    const mintToAddress = process.env.MINT_TO_ADDRESS || '';
+    console.log(`mintToAddress: ${mintToAddress}`);
+
     const contract: NRPK = new hre.ethers.Contract(contractAddress, abi, deployer) as NRPK;
 
     const receipt: ContractTransaction = await contract.connect(deployer)
-      .burn(tokenId, { gasLimit: 300000 });
+      .safeBatchMint(mintToAddress, metadataUriArr, { gasLimit: 500000 });
 
-    console.log('burned:', receipt);
+    console.log('minted:', receipt);
     process.exit(0)
   });

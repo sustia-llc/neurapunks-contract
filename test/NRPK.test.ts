@@ -44,9 +44,22 @@ describe("nrpk", () => {
 
             await expect(nrpk.connect(deployer).safeMint(other.address, tokenURI))
                 .to.emit(nrpk, 'Transfer')
-                .withArgs(ZERO_ADDRESS, other.address, tokenId)
+                .withArgs(ZERO_ADDRESS, other.address, tokenId);
+
+            await expect(nrpk.connect(deployer).setTokenURI(tokenId, tokenURI));
+
+            await expect(nrpk.connect(other).setTokenURI(tokenId, tokenURI))
+                .to.be.revertedWith('Ownable: caller is not the owner');
+
+            await expect(nrpk.connect(other).setPermanentURI(tokenId, tokenURI))
+                .to.be.revertedWith('Ownable: caller is not the owner');
+
+            await expect(nrpk.connect(deployer).setPermanentURI(tokenId, tokenURI))
                 .to.emit(nrpk, 'PermanentURI')
                 .withArgs(tokenURI, tokenId);
+
+            await expect(nrpk.connect(deployer).setPermanentURI(tokenId, tokenURI))
+                .to.be.revertedWith('ERC721Tradable#onlyImpermanentURI: URI_CANNOT_BE_CHANGED');
 
             expect(await nrpk.balanceOf(other.address)).to.equal(1);
             expect(await nrpk.ownerOf(tokenId)).to.equal(other.address);
@@ -59,6 +72,22 @@ describe("nrpk", () => {
                 .to.be.revertedWith('Ownable: caller is not the owner');
         });
     });
+
+    describe("batch minting", async () => {
+        it('contract owner can batch mint tokens', async () => {
+            const tokenId = ethers.BigNumber.from(0);
+            const tokenId2 = ethers.BigNumber.from(1);
+            const tokenURI = "https://eth.iwahi.com/1df0";
+            const tokenURI2 = "https://eth.iwahi.com/e01b";
+
+            await expect(nrpk.connect(deployer).safeBatchMint(other.address, [tokenURI, tokenURI2]))
+                .to.emit(nrpk, 'Transfer')
+                .withArgs(ZERO_ADDRESS, other.address, tokenId)
+                .to.emit(nrpk, 'Transfer')
+                .withArgs(ZERO_ADDRESS, other.address, tokenId2);
+        });
+    });
+            
 
     describe("burning", async () => {
         it('holders can burn their tokens', async () => {

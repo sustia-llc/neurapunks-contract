@@ -116,9 +116,21 @@ https://rinkeby.etherscan.io/address/_contract-address_
 ```sh
 hh mint-token --network rinkeby --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
 ```
+### Mint to Rinkeby
+```sh
+hh batchmint-token --network rinkeby --metadata-uris ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM,ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+```
+
+### Set Permanent URI to Rinkeby
+```sh
+hh setpermanenturi-token --network rinkeby --token-id 0 --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+```
 
 ### Check contract on OpenSea
 Go to https://testnets.opensea.io/ connect wallet using the Rinkeby network. Choose "My Collections" and "Import an existing smart contract". Enter the Rinkeby Contract Address.
+
+### Validate metadata on OpenSea
+https://testnets-api.opensea.io/asset/_contract_/_tokenId_/validate/
 
 ### Burn Token on Rinkeby
 ```sh

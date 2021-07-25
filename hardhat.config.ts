@@ -9,6 +9,8 @@ import "solidity-coverage";
 import "./tasks/accounts";
 import "./tasks/deployment/deploy";
 import "./tasks/operations/mint-token";
+import "./tasks/operations/batchmint-token";
+import "./tasks/operations/setpermanenturi-token";
 import "./tasks/operations/burn-token";
 
 const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
