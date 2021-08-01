@@ -10,6 +10,7 @@ import "./tasks/accounts";
 import "./tasks/deployment/deploy";
 import "./tasks/operations/mint-token";
 import "./tasks/operations/batchmint-token";
+import "./tasks/operations/seturi-token";
 import "./tasks/operations/setpermanenturi-token";
 import "./tasks/operations/burn-token";
 
@@ -33,12 +34,12 @@ const config: HardhatUserConfig = {
         mainnet: {
             url: `https://mainnet.infura.io/v3/${INFURA_API_KEY}`,
             accounts: [MAINNET_PRIVATE_KEY],
-            gasPrice: 50000000000, // 50 gwei,
+            gasPrice: 10000000000, // 10 gwei,
         },
         rinkeby: {
             url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
             accounts: [RINKEBY_PRIVATE_KEY],
-            gasPrice: 50000000000, // 50 gwei,
+            gasPrice: 10000000000, // 10 gwei,
         },
         coverage: {
             url: "http://127.0.0.1:8555", // Coverage launches its own ganache-cli client
