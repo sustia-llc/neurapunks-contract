@@ -2,19 +2,21 @@ import { task, types } from "hardhat/config";
 import { ContractTransaction } from "ethers";
 import { NRPK } from "../../typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { TASK_BATCHMINT } from "../task-names";
-// hh batchmint-token --network rinkeby|mainnet|localhost --metadata-uris ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
-task(TASK_BATCHMINT, "Batch mints tokens with token metadata uris")
-  .addParam("metadataUris", "The token URI", null, types.string)
-  .setAction(async ({ metadataUris }, hre) => {
+import { TASK_SETURI } from "../task-names";
+// hh seturi-token --network rinkeby|mainnet|localhost --token-id 0 --metadata-uri ar://8_NZWr4K9d6N8k4TDbMzLAkW6cNQnSQMLeoShc8komM
+task(TASK_SETURI, "Mints a token with token metadata uri")
+  .addParam("tokenId", "The token id", null, types.int) 
+  .addParam("metadataUri", "The token URI", null, types.string)
+  .setAction(async ({ tokenId, metadataUri }, hre) => {
     const abi = [
-      'function safeBatchMint(address to, string[] metadataURIs) public',
+      'function setTokenURI(uint256 _id, string _uri) public',
     ]
 
-    //TODO parse comma delimited to Arr
-    var metadataUriArr: string[] = metadataUris.split(',');
-
-    console.log('mintTokenURIs:', metadataUriArr);
+    if (!metadataUri.startsWith("ar://")) {
+      console.log('token-id must begin with ar://');
+      process.exit(0)
+    }
+    console.log('mintTokenURI:', metadataUri)
 
     let deployer: SignerWithAddress;
 
@@ -40,10 +42,9 @@ task(TASK_BATCHMINT, "Batch mints tokens with token metadata uris")
 
     const contract: NRPK = new hre.ethers.Contract(contractAddress, abi, deployer) as NRPK;
 
-    // GasLimit for 16 mints: 4,800,000 Gas Used by Transaction: 3,006,574
     const receipt: ContractTransaction = await contract.connect(deployer)
-      .safeBatchMint(mintToAddress, metadataUriArr, { gasLimit: 300000 * metadataUriArr.length });
+      .setTokenURI(tokenId, metadataUri, { gasLimit: 300000 });
 
-    console.log('minted:', receipt);
+    console.log('URI set:', receipt);
     process.exit(0)
   });
